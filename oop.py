@@ -39,6 +39,15 @@ class Student:
                f"Средняя оценка за домашние задания: {self.count_avg_grade()}\n" \
                f"Курсы в процессе изучения: {', '.join(self.courses_in_progress)}\n" \
                f"Завершенные курсы: {', '.join(self.finished_courses)}\n"
+               
+    def __lt__ (self, other):
+        if isinstance(other, Student):
+            if self.count_avg_grade() < other.count_avg_grade():
+                return True
+            else:
+                return False
+        else:
+            pass
 
 
 class Mentor:
@@ -74,6 +83,15 @@ class Lecturer(Mentor):
                 counter += 1
         return s / counter
 
+    def __lt__ (self, other):
+        if isinstance(other, Lecturer):
+            if self.count_avg_grade() < other.count_avg_grade():
+                return True
+            else:
+                return False
+        else:
+            pass
+
 
 class Reviewer(Mentor):
     def __str__(self):
@@ -87,12 +105,34 @@ class Reviewer(Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
-
-some_reviewer = Reviewer('Some', 'Buddy')
-print(some_reviewer)
+        
+        
+some_student = Student('Ruoy', 'Eman', 'your_gender')
+second_student = Student('Andrey', 'Stepanov', 'your_gender')
+some_student.finished_courses += ['Python'] 
+second_student.finished_courses += ['Git'] 
+some_student.rate_lec('some_lecturer', 'Git', 8)
+some_student.rate_lec('second_lecturer', 'Python', 9)
+second_student.rate_lec('second_lecturer', 'Python', 10)
+second_student.rate_lec('some_lecturer', 'Git', 8)
 
 some_lecturer = Lecturer(f'Some', 'Buddy')
-print(some_lecturer)
+second_lecturer = Lecturer(f'Ivan', 'Petrov')
+some_lecturer.courses_attached += ['Python']
+second_lecturer.courses_attached += ['Git']
 
-some_student = Student('Ruoy', 'Eman', 'your_gender')
-print(some_student)
+some_reviewer = Reviewer('Some', 'Buddy')
+second_reviewer = Reviewer('Aleksander', 'Ivanov')
+second_reviewer.courses_attached += ['Python']
+some_reviewer.courses_attached += ['Git']
+second_reviewer.rate_hw('some_student', 'Python', 6)
+some_reviewer.rate_hw('some_student', 'Git', 10)
+
+
+
+print(some_reviewer, '\n')
+print(second_reviewer, '\n')
+print(some_lecturer, '\n')
+print(second_lecturer, '\n')
+print(some_student, '\n')
+print(second_student, '\n')
